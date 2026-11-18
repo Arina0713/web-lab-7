@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лабораторная работа №7</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky Gallery Lab</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-container">
-        <div class="slider-wrapper">
-            <!-- Кнопка влево -->
-             <button id="prevBtn" class="nav-btn">←</button>
-             <!-- Контейнер со слайдами -->
-              <div class="slider-container">
-                <div class="slider-track" id="sliderTrack">
-                    <!-- Фотографии (замените 1.jpg на ваши названия файлов) -->
-                     <div class="slide"><img src="1.jpg" alt="Image 1"></div>
-                     <div class="slide"><img src="2.jpg" alt="Image 2"></div>
-                     <div class="slide"><img src="3.jpg" alt="Image 3"></div>
-                     <div class="slide"><img src="4.jpg" alt="Image 4"></div>
-                     <div class="slide"><img src="5.jpg" alt="Image 5"></div>
-                     <div class="slide"><img src="6.jpg" alt="Image 6"></div>
-                     <div class="slide"><img src="7.jpg" alt="Image 7"></div>
-                     <div class="slide"><img src="8.jpg" alt="Image 8"></div>
-                    </div>
-                </div>
-                <!-- Кнопка вправо -->
-                 <button id="nextBtn" class="nav-btn">→</button>
-                </div>
-                <!-- Пейджер (индикатор страниц) -->
-                 <div class="pager" id="pager">
-                    <span id="pageInfo">Страница 1 из 3</span>
-                </div>
-            </div>
-            <script src="script.js"></script>
+<div class="container">
+<!-- Верхний блок текста -->
+<header class="header-content">
+<h1>Миры Sky: Children of the light</h1>
+<p class="locations">Дом, Острова Рассвета, Полуденная прерия, Тайный лес,
+Долина триумфа, Золотая пустошь, Хранилище знаний, Сердце Эдема</p>
+</header>
+<!-- Секция слайдера -->
+<div class="slider-wrapper">
+<button id="prevBtn" class="nav-btn">❮</button>
+<div class="slider-container">
+<div class="slider-track" id="sliderTrack">
+<!-- 8 изображений -->
+<div class="slide"><img src="1.jpg" alt="1"></div>
+<div class="slide"><img src="2.jpg" alt="2"></div>
+<div class="slide"><img src="3.jpg" alt="3"></div>
+<div class="slide"><img src="4.jpg" alt="4"></div>
+<div class="slide"><img src="5.jpg" alt="5"></div>
+<div class="slide"><img src="6.jpg" alt="6"></div>
+<div class="slide"><img src="7.jpg" alt="7"></div>
+<div class="slide"><img src="8.jpg" alt="8"></div>
+</div>
+</div>
+<button id="nextBtn" class="nav-btn">❯</button>
+</div>
+<!-- Пейджер (точки) -->
+<div class="pager" id="pager">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+<!-- Нижний блок -->
+<footer class="footer-content">
+<p>Галерея Sky</p>
+</footer>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

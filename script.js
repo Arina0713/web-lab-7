@@ -1,49 +1,55 @@
 const track = document.getElementById('sliderTrack');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
-const pageInfo = document.getElementById('pageInfo');
-let currentIndex = 0; // Текущая страница (индекс)
-// Определяем, сколько фото видно на экране (3 для ПК, 1 для моб)
-const getVisibleSlides = () => {
-        return window.innerWidth <= 768 ? 1 : 3;
-};
-const totalSlides = document.querySelectorAll('.slide').length;
+const dots = document.querySelectorAll('.dot');
+const slides = document.querySelectorAll('.slide');
+let currentIndex = 0;
+// Функция для определения количества видимых слайдов
+function getVisibleSlides() {
+// Если ширина экрана меньше или равна 768px, возвращаем 1, иначе 3
+return window.innerWidth <= 768 ? 1 : 3;
+}
 function updateSlider() {
-    const visibleSlides = getVisibleSlides();
-    // Вычисляем смещение
-    const offset = currentIndex * (100 / visibleSlides);
-    track.style.transform = `translateX(-${offset}%)`;
-    // Обновляем пейджер
-    // Всего страниц = общее кол-во фото - (видимых - 1)
-    const totalPages = totalSlides - visibleSlides + 1;
-    // Ограничиваем индекс, чтобы не уходить в пустоту
-    const currentPage = Math.min(currentIndex + 1, totalPages);
-    pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+const visibleSlides = getVisibleSlides();
+const totalSlides = slides.length;
+// Максимальный индекс не может превышать (всего - видимых)
+const maxIndex = totalSlides - visibleSlides;
+if (currentIndex > maxIndex) {
+currentIndex = maxIndex;
+}
+if (currentIndex < 0) {
+currentIndex = 0;
+}
+// Вычисляем процент сдвига
+// Один слайд занимает (100 / visibleSlides)%
+const percentage = currentIndex * (100 / visibleSlides);
+track.style.transform = `translateX(-${percentage}%)`;
+// Обновляем точки (пейджер)
+dots.forEach((dot, index) => {
+dot.classList.toggle('active', index === currentIndex);
+});
 }
 nextBtn.addEventListener('click', () => {
-    const visibleSlides = getVisibleSlides();
-    const maxIndex = totalSlides - visibleSlides;
-    if (currentIndex < maxIndex) {
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Зацикливание (опционально)
-    }
-    updateSlider();
+const visibleSlides = getVisibleSlides();
+const maxIndex = slides.length - visibleSlides;
+if (currentIndex < maxIndex) {
+currentIndex++;
+} else {
+currentIndex = 0; // Возврат в начало (зацикливание)
+}
+updateSlider();
 });
 prevBtn.addEventListener('click', () => {
-    const visibleSlides = getVisibleSlides();
-    const maxIndex = totalSlides - visibleSlides;
-    if (currentIndex > 0) {
-        currentIndex--;
-    } else {
-        currentIndex = maxIndex; // Зацикливание (опционально)
-    }
-    updateSlider();
+const visibleSlides = getVisibleSlides();
+const maxIndex = slides.length - visibleSlides;
+if (currentIndex > 0) {
+currentIndex--;
+} else {
+currentIndex = maxIndex; // Переход в конец (зацикливание)
+}
+updateSlider();
 });
-// Обновляем при изменении размера окна (для перехода ПК <-> Смартфон)
-window.addEventListener('resize', () => {
-    currentIndex = 0; // Сбрасываем на первую страницу для корректного расчета
-    updateSlider();
-});
-// Инициализация при загрузке
+// Следим за изменением размера окна (ПК <-> Смартфон)
+window.addEventListener('resize', updateSlider);
+// Запуск при загрузке
 updateSlider();
