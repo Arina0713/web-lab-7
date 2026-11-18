@@ -17,6 +17,7 @@ function updateSlider() {
     if (currentIndex < 0) {
         currentIndex = 0;
     }
+    const percentage = currentIndex * (100 / visibleSlides);
     track.style.transform = `translateX(-${percentage}%)`;
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentIndex);
@@ -38,7 +39,7 @@ prevBtn.addEventListener('click', () => {
     if (currentIndex > 0) {
         currentIndex--;
     } else {
-        currentIndex = maxIndex; 
+        currentIndex = maxIndex;
     }
     updateSlider();
 });
