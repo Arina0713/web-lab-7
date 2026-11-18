@@ -1,49 +1,49 @@
-const slider = document.getElementById('slider');
+const track = document.getElementById('sliderTrack');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
-const currentPageEl = document.getElementById('currentPage');
-const totalPagesEl = document.getElementById('totalPages');
-let currentIndex = 0; // Текущий индекс картинки
-const images = document.querySelectorAll('.slider img');
-const totalImages = images.length;
-// Определяем, сколько картинок видно на экране
-function getVisibleImages() {
-    return window.innerWidth < 768 ? 1 : 3;
-}
+const pageInfo = document.getElementById('pageInfo');
+let currentIndex = 0; // Текущая страница (индекс)
+// Определяем, сколько фото видно на экране (3 для ПК, 1 для моб)
+const getVisibleSlides = () => {
+        return window.innerWidth <= 768 ? 1 : 3;
+};
+const totalSlides = document.querySelectorAll('.slide').length;
 function updateSlider() {
-    const visibleImages = getVisibleImages();
-    const totalPages = Math.ceil(totalImages / visibleImages);
-    // Ограничиваем индекс, чтобы не уйти в пустоту
-    if (currentIndex > totalImages - visibleImages) {
-        currentIndex = totalImages - visibleImages;
-    }
-    if (currentIndex < 0) {
-        currentIndex = 0;
-    }
-    const offset = currentIndex * (100 / visibleImages);
-    const itemWidth = images[0].clientWidth;
-    slider.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
-    const page = Math.floor(currentIndex / visibleImages) + 1;
-    currentPageEl.innerText = page;
-    totalPagesEl.innerText = totalPages;
+    const visibleSlides = getVisibleSlides();
+    // Вычисляем смещение
+    const offset = currentIndex * (100 / visibleSlides);
+    track.style.transform = `translateX(-${offset}%)`;
+    // Обновляем пейджер
+    // Всего страниц = общее кол-во фото - (видимых - 1)
+    const totalPages = totalSlides - visibleSlides + 1;
+    // Ограничиваем индекс, чтобы не уходить в пустоту
+    const currentPage = Math.min(currentIndex + 1, totalPages);
+    pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
 }
 nextBtn.addEventListener('click', () => {
-    const visibleImages = getVisibleImages();
-    if (currentIndex < totalImages - visibleImages) {
+    const visibleSlides = getVisibleSlides();
+    const maxIndex = totalSlides - visibleSlides;
+    if (currentIndex < maxIndex) {
         currentIndex++;
     } else {
         currentIndex = 0; // Зацикливание (опционально)
-        }
-        updateSlider();
-    });
+    }
+    updateSlider();
+});
 prevBtn.addEventListener('click', () => {
-    const visibleImages = getVisibleImages();
+    const visibleSlides = getVisibleSlides();
+    const maxIndex = totalSlides - visibleSlides;
     if (currentIndex > 0) {
         currentIndex--;
     } else {
-        currentIndex = totalImages - visibleImages; // Зацикливание
-        }
-        updateSlider();
+        currentIndex = maxIndex; // Зацикливание (опционально)
+    }
+    updateSlider();
 });
-window.addEventListener('resize', updateSlider);
-window.onload = updateSlider;
+// Обновляем при изменении размера окна (для перехода ПК <-> Смартфон)
+window.addEventListener('resize', () => {
+    currentIndex = 0; // Сбрасываем на первую страницу для корректного расчета
+    updateSlider();
+});
+// Инициализация при загрузке
+updateSlider();
